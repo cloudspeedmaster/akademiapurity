@@ -44,7 +44,6 @@
         .ui-dropdown-button:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(106, 76, 147, 0.2); }
         .ui-dropdown-menu { position: absolute; bottom: 120%; left: 0; background-color: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); padding: 0.5rem; opacity: 0; transform: translateY(10px); visibility: hidden; transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s; display: flex; flex-direction: column; gap: 0.5rem; min-width: 150px; }
         .ui-dropdown-menu.active { opacity: 1; transform: translateY(0); visibility: visible; }
-        /* THIS IS THE FIX: Aligns the right-side menu inwards */
         .ui-dropdown-menu-right { left: auto; right: 0; }
         .lang-option, .social-option { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; border-radius: 8px; cursor: pointer; transition: background-color 0.2s ease; text-decoration: none; color: var(--dark); }
         .lang-option:hover, .social-option:hover { background-color: var(--light); }
@@ -130,7 +129,8 @@
                 <div class="absolute bottom-10 left-10 floating floating-delay-2">
                     <svg class="w-12 h-12 text-[#9c6ea8]" fill="currentColor" viewBox="0 0 24 24"><path d="M19.071,4.929c-3.899-3.898-10.243-3.898-14.143,0c-3.898,3.899-3.898,10.243,0,14.143 c3.899,3.898,10.243,3.898,14.143,0C22.969,15.172,22.969,8.828,19.071,4.929z M17.657,17.657c-3.119,3.119-8.194,3.119-11.313,0 c-3.119-3.119-3.119-8.195,0-11.314c3.119-3.119,8.194-3.119,11.313,0C20.776,9.462,20.776,14.538,17.657,17.657z"></path><path d="M11 9L13 9 13 15 11 15z"></path></svg>
                 </div>
-                <div class="absolute top-1/2 -left-4 floating floating-delay-3">
+                <!-- THIS IS THE FIX: The 'hidden md:block' classes prevent this element from causing overflow on mobile -->
+                <div class="absolute top-1/2 -left-4 floating floating-delay-3 hidden md:block">
                     <svg class="w-10 h-10 text-[#6a4c93]" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2C6.486,2,2,6.486,2,12s4.486,10,10,10s10-4.486,10-10S17.514,2,12,2z M12,20c-4.411,0-8-3.589-8-8s3.589-8,8-8 s8,3.589,8,8S16.411,20,12,20z"></path><path d="M11 11H13V17H11zM11 7H13V9H11z"></path></svg>
                 </div>
             </div>
