@@ -44,6 +44,8 @@
         .ui-dropdown-button:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(106, 76, 147, 0.2); }
         .ui-dropdown-menu { position: absolute; bottom: 120%; left: 0; background-color: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); padding: 0.5rem; opacity: 0; transform: translateY(10px); visibility: hidden; transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s; display: flex; flex-direction: column; gap: 0.5rem; min-width: 150px; }
         .ui-dropdown-menu.active { opacity: 1; transform: translateY(0); visibility: visible; }
+        /* THIS IS THE FIX: Aligns the right-side menu inwards */
+        .ui-dropdown-menu-right { left: auto; right: 0; }
         .lang-option, .social-option { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; border-radius: 8px; cursor: pointer; transition: background-color 0.2s ease; text-decoration: none; color: var(--dark); }
         .lang-option:hover, .social-option:hover { background-color: var(--light); }
         .lang-flag { width: 24px; height: 18px; object-fit: cover; border-radius: 3px; box-shadow: 0 0 3px rgba(0,0,0,0.2); }
@@ -315,7 +317,7 @@
         </div>
         <!-- Social Media Dropdown -->
         <div class="ui-dropdown" id="social-dropdown">
-            <div class="ui-dropdown-menu" id="social-menu">
+            <div class="ui-dropdown-menu ui-dropdown-menu-right" id="social-menu">
                 <a href="https://www.facebook.com" target="_blank" class="social-option"> <i class="fab fa-facebook-f social-icon"></i> <span>Facebook</span> </a>
                 <a href="https://www.instagram.com" target="_blank" class="social-option"> <i class="fab fa-instagram social-icon"></i> <span>Instagram</span> </a>
             </div>
