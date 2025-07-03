@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PURITY ACADEMY of Aesthetics and Cosmetology</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #d4a9c8; --secondary: #9c6ea8; --accent: #6a4c93; --light: #f8f0f7; --dark: #2d1832;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: #fcf7fb; overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+        .floating { animation: float 6s ease-in-out infinite; }
+        .floating-delay-1 { animation-delay: 1s; }
+        .floating-delay-2 { animation-delay: 2s; }
+        .floating-delay-3 { animation-delay: 3s; }
+        @keyframes float { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-15px) rotate(5deg); } 100% { transform: translateY(0px) rotate(0deg); } }
+        .program-card { transition: all 0.3s ease; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .program-card:hover { transform: translateY(-10px); box-shadow: 0 20px 30px rgba(156, 110, 168, 0.2); }
+        .blob { position: absolute; border-radius: 50%; filter: blur(60px); z-index: -1; opacity: 0.6; }
+        .blob-1 { width: 400px; height: 400px; background: var(--primary); top: -100px; right: -100px; }
+        .blob-2 { width: 350px; height: 350px; background: var(--secondary); bottom: 20%; left: -100px; }
+        .scroll-reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .scroll-reveal.active { opacity: 1; transform: translateY(0); }
+        .nav-link { position: relative; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -2px; left: 0; background-color: var(--accent); transition: width 0.3s ease; }
+        .nav-link:hover::after { width: 100%; }
+        .course-item { position: relative; padding-left: 1.5rem; }
+        .course-item::before { content: '✦'; position: absolute; left: 0; color: var(--secondary); }
+        .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); transition: all 0.3s ease; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(156, 110, 168, 0.3); }
+        .certificate-badge { position: relative; overflow: hidden; }
+        .certificate-badge::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent); transform: rotate(45deg); animation: shine 3s infinite; }
+        @keyframes shine { 0% { left: -50%; top: -50%; } 100% { left: 100%; top: 100%; } }
+        .fixed-bottom-ui { position: fixed; bottom: 1rem; left: 1rem; right: 1rem; z-index: 100; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none; }
+        .ui-dropdown { position: relative; pointer-events: auto; }
+        .ui-dropdown-button { background-color: white; color: var(--accent); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s ease; border: 2px solid white; }
+        .ui-dropdown-button:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(106, 76, 147, 0.2); }
+        .ui-dropdown-menu { position: absolute; bottom: 120%; left: 0; background-color: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); padding: 0.5rem; opacity: 0; transform: translateY(10px); visibility: hidden; transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s; display: flex; flex-direction: column; gap: 0.5rem; min-width: 150px; }
+        .ui-dropdown-menu.active { opacity: 1; transform: translateY(0); visibility: visible; }
+        .lang-option, .social-option { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; border-radius: 8px; cursor: pointer; transition: background-color 0.2s ease; text-decoration: none; color: var(--dark); }
+        .lang-option:hover, .social-option:hover { background-color: var(--light); }
+        .lang-flag { width: 24px; height: 18px; object-fit: cover; border-radius: 3px; box-shadow: 0 0 3px rgba(0,0,0,0.2); }
+        .social-icon { font-size: 1.25rem; width: 24px; text-align: center; color: var(--secondary); }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Decorative blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center">
+                <img src="https://i.imgur.com/UcLNBT6.png" alt="PURITY Academy Logo" class="h-12">
+            </a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#programs" class="nav-link text-gray-700 hover:text-[#6a4c93]" data-key="nav_programs">Programs</a>
+                <a href="#why-us" class="nav-link text-gray-700 hover:text-[#6a4c93]" data-key="nav_why_us">Why Us</a>
+                <a href="#certification" class="nav-link text-gray-700 hover:text-[#6a4c93]" data-key="nav_certification">Certification</a>
+                <a href="#contact" class="nav-link text-gray-700 hover:text-[#6a4c93]" data-key="nav_contact">Contact</a>
+            </div>
+            <a href="#contact" class="hidden md:inline-block bg-[#d4a9c8] hover:bg-[#9c6ea8] text-white px-6 py-2 rounded-full transition-all duration-300 shadow-md hover:shadow-lg" data-key="enroll_now">
+                Enroll Now
+            </a>
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button id="menu-toggle" class="text-gray-700">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile menu container -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="#programs" class="mobile-nav-link text-gray-700 hover:text-[#6a4c93] py-2" data-key="nav_programs_mob">Programs</a>
+                <a href="#why-us" class="mobile-nav-link text-gray-700 hover:text-[#6a4c93] py-2" data-key="nav_why_us_mob">Why Us</a>
+                <a href="#certification" class="mobile-nav-link text-gray-700 hover:text-[#6a4c93] py-2" data-key="nav_certification_mob">Certification</a>
+                <a href="#contact" class="mobile-nav-link text-gray-700 hover:text-[#6a4c93] py-2" data-key="nav_contact_mob">Contact</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="pt-28 pb-16 relative overflow-hidden">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <!-- Left Side: Text Content -->
+            <div class="md:w-1/2 z-10">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                    <span class="text-[#6a4c93]" data-key="hero_title_1">Transform</span> <span data-key="hero_title_2">Your Passion into</span> 
+                    <span class="text-[#9c6ea8]" data-key="hero_title_3">Profession</span>
+                </h1>
+                <p class="text-lg text-gray-700 mb-8" data-key="hero_subtitle">
+                    Join PURITY ACADEMY of Aesthetics and Cosmetology and master the art of beauty with internationally recognized certification.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#programs" class="btn-primary text-white font-medium px-8 py-3 rounded-full text-center" data-key="hero_btn_explore">
+                        Explore Programs
+                    </a>
+                    <a href="#contact" class="border-2 border-[#9c6ea8] text-[#6a4c93] font-medium px-8 py-3 rounded-full hover:bg-[#9c6ea8] hover:text-white transition-all duration-300 text-center" data-key="hero_btn_contact">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+            <!-- Right Side: Floating Icons and Visuals -->
+            <div class="md:w-1/2 mt-12 md:mt-0 relative">
+                <div class="relative">
+                    <svg class="w-full h-auto max-w-lg mx-auto" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                        <defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#d4a9c8;stop-opacity:1" /><stop offset="100%" style="stop-color:#9c6ea8;stop-opacity:1" /></linearGradient></defs>
+                        <path fill="url(#grad1)" d="M409.2,206.9c25.9,51.2,14.2,135.2-29.7,191.3c-43.9,56.1-120,84.4-181.5,62.8c-61.5-21.6-108.5-93.2-111.6-161.7c-3.1-68.5,37.7-134,98.4-156.1c60.7-22.1,141.3-0.8,178.5,42.5C400.5,132.1,383.3,155.7,409.2,206.9z"></path>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <i class="fas fa-gem text-white text-8xl md:text-9xl floating" style="filter: drop-shadow(0 0 15px rgba(255,255,255,0.5));"></i>
+                    </div>
+                </div>
+                
+                <div class="absolute top-10 right-10 floating floating-delay-1">
+                    <svg class="w-16 h-16 text-[#d4a9c8]" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2C6.486,2,2,6.486,2,12s4.486,10,10,10s10-4.486,10-10S17.514,2,12,2z M12,20c-4.411,0-8-3.589-8-8s3.589-8,8-8 s8,3.589,8,8S16.411,20,12,20z"></path><path d="M13 7L11 7 11 11 7 11 7 13 11 13 11 17 13 17 13 13 17 13 17 11 13 11z"></path></svg>
+                </div>
+                <div class="absolute bottom-10 left-10 floating floating-delay-2">
+                    <svg class="w-12 h-12 text-[#9c6ea8]" fill="currentColor" viewBox="0 0 24 24"><path d="M19.071,4.929c-3.899-3.898-10.243-3.898-14.143,0c-3.898,3.899-3.898,10.243,0,14.143 c3.899,3.898,10.243,3.898,14.143,0C22.969,15.172,22.969,8.828,19.071,4.929z M17.657,17.657c-3.119,3.119-8.194,3.119-11.313,0 c-3.119-3.119-3.119-8.195,0-11.314c3.119-3.119,8.194-3.119,11.313,0C20.776,9.462,20.776,14.538,17.657,17.657z"></path><path d="M11 9L13 9 13 15 11 15z"></path></svg>
+                </div>
+                <div class="absolute top-1/2 -left-4 floating floating-delay-3">
+                    <svg class="w-10 h-10 text-[#6a4c93]" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2C6.486,2,2,6.486,2,12s4.486,10,10,10s10-4.486,10-10S17.514,2,12,2z M12,20c-4.411,0-8-3.589-8-8s3.589-8,8-8 s8,3.589,8,8S16.411,20,12,20z"></path><path d="M11 11H13V17H11zM11 7H13V9H11z"></path></svg>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Programs Section -->
+    <section id="programs" class="py-16 relative">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4"><span data-key="programs_title_1">Our</span> <span class="text-[#9c6ea8]" data-key="programs_title_2">Premium</span> <span data-key="programs_title_3">Programs</span></h2>
+                <p class="text-gray-600 max-w-2xl mx-auto" data-key="programs_subtitle">Discover our comprehensive programs designed to provide you with the skills and knowledge needed to excel in the beauty industry.</p>
+            </div>
+            
+            <div id="programs-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
+            
+            <div class="text-center mt-12 scroll-reveal">
+                <p class="text-gray-600 mb-6" data-key="programs_individual_note">You can take any course separately outside the program at a set price and duration without offer!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-us" class="py-16 bg-gradient-to-b from-white to-[#f8f0f7]">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4" data-key="why_us_title">Why Choose <span class="text-[#9c6ea8]">PURITY</span> Academy</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto" data-key="why_us_subtitle">We provide exceptional education and training in aesthetics and cosmetology with internationally recognized certification.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-white rounded-xl p-6 shadow-lg text-center scroll-reveal">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-[#f8f0f7] rounded-full flex items-center justify-center"><i class="fas fa-certificate text-2xl text-[#9c6ea8]"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-[#6a4c93]" data-key="why_us_f1_title">International Certification</h3>
+                    <p class="text-gray-600" data-key="why_us_f1_desc">Internationally recognized diploma from York University (USA) and PHD Institute TelAviv.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="bg-white rounded-xl p-6 shadow-lg text-center scroll-reveal" style="animation-delay: 0.2s;">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-[#f8f0f7] rounded-full flex items-center justify-center"><i class="fas fa-user-graduate text-2xl text-[#9c6ea8]"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-[#6a4c93]" data-key="why_us_f2_title">Expert Instructors</h3>
+                    <p class="text-gray-600" data-key="why_us_f2_desc">Learn from industry professionals with years of experience in aesthetics and cosmetology.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="bg-white rounded-xl p-6 shadow-lg text-center scroll-reveal" style="animation-delay: 0.4s;">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-[#f8f0f7] rounded-full flex items-center justify-center"><i class="fas fa-credit-card text-2xl text-[#9c6ea8]"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-[#6a4c93]" data-key="why_us_f3_title">Flexible Payment</h3>
+                    <p class="text-gray-600" data-key="why_us_f3_desc">Multiple installment options available to make quality education accessible.</p>
+                </div>
+                <!-- Feature 4 -->
+                <div class="bg-white rounded-xl p-6 shadow-lg text-center scroll-reveal" style="animation-delay: 0.6s;">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-[#f8f0f7] rounded-full flex items-center justify-center"><i class="fas fa-calendar-alt text-2xl text-[#9c6ea8]"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-[#6a4c93]" data-key="why_us_f4_title">Convenient Schedule</h3>
+                    <p class="text-gray-600" data-key="why_us_f4_desc">Classes scheduled twice a week to accommodate your busy lifestyle.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certification Section -->
+    <section id="certification" class="py-16 relative">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 scroll-reveal">
+                    <div class="certificate-badge bg-white p-8 rounded-xl shadow-xl max-w-md mx-auto">
+                        <div class="border-8 border-[#d4a9c8] border-double p-6 rounded-lg">
+                            <div class="text-center">
+                                <h3 class="text-2xl font-bold text-[#6a4c93] mb-2" data-key="cert_badge_title">CERTIFICATE OF COMPLETION</h3>
+                                <div class="w-full h-px bg-[#9c6ea8] my-4"></div>
+                                <p class="text-lg mb-2" data-key="cert_badge_p1">This certifies that</p>
+                                <p class="text-xl font-bold italic mb-2" data-key="cert_badge_name">Student Name</p>
+                                <p class="text-lg mb-4" data-key="cert_badge_p2">has successfully completed</p>
+                                <p class="text-xl font-bold text-[#9c6ea8] mb-2" data-key="cert_badge_program">Aesthetics & Cosmetology Program</p>
+                                <p class="text-lg mb-4" data-key="cert_badge_p3">at PURITY Academy</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 md:pl-12 scroll-reveal" style="animation-delay: 0.3s;">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6"><span data-key="cert_title_1">Internationally</span> <span class="text-[#9c6ea8]" data-key="cert_title_2">Recognized</span> <span data-key="cert_title_3">Certification</span></h2>
+                    <p class="text-gray-700 mb-6" data-key="cert_desc">Upon completion of your chosen program at PURITY Academy, you will receive an internationally recognized diploma backed by:</p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-[#9c6ea8] mt-1 mr-3"></i>
+                            <span data-key="cert_partner1">York University (USA)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-[#9c6ea8] mt-1 mr-3"></i>
+                            <span data-key="cert_partner2">Faculty of Medical Cosmetics at the PHD Institute TelAviv</span>
+                        </li>
+                    </ul>
+                    <div class="italic text-[#6a4c93] text-xl font-medium" data-key="cert_motto">
+                        "WE SHOW OUR WORK BEST WHEN WE ARE INSPIRING OTHERS!"
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-[#f8f0f7]">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4" data-key="contact_title">Ready to Transform Your Career?</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto" data-key="contact_subtitle">Contact us today to learn more about our programs and start your journey in aesthetics and cosmetology.</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-1/2 bg-white rounded-xl shadow-lg p-8 scroll-reveal">
+                    <h3 class="text-2xl font-bold mb-6 text-[#6a4c93]" data-key="form_title">Get in Touch</h3>
+                    <!-- IMPORTANT: Replace the action URL with your own from Formspree.io -->
+                    <form action="https://formspree.io/f/your_unique_id" method="POST" class="space-y-6">
+                        <div>
+                            <label class="block text-gray-700 mb-2" for="name" data-key="form_name">Full Name</label>
+                            <input type="text" id="name" name="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#9c6ea8]" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2" for="email" data-key="form_email">Email Address</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#9c6ea8]" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2" for="program" data-key="form_select_label">Program of Interest</label>
+                            <select id="program" name="program" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#9c6ea8] bg-white" required>
+                                <option value="" data-key="form_select_default">Select a Program</option>
+                                <option value="cosmetology" data-key="form_select_cosmetology">Cosmetology Program</option>
+                                <option value="anti-ageing" data-key="form_select_anti_ageing">Anti-Ageing Program</option>
+                                <option value="aesthetic" data-key="form_select_aesthetic">Aesthetic Program</option>
+                                <option value="wellness-spa" data-key="form_select_wellness">Wellness & SPA Therapy</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2" for="message" data-key="form_message">Message</label>
+                            <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#9c6ea8]" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-[#d4a9c8] to-[#9c6ea8] text-white font-medium py-3 rounded-lg hover:shadow-lg transition-all duration-300" data-key="form_button">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="md:w-1/2 scroll-reveal" style="animation-delay: 0.3s;">
+                    <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                        <h3 class="text-2xl font-bold mb-6 text-[#6a4c93]" data-key="contact_info_title">Contact Information</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-[#f8f0f7] flex items-center justify-center mr-4 shrink-0"> <i class="fas fa-phone text-[#9c6ea8]"></i> </div>
+                                <div>
+                                    <p class="text-gray-500 text-sm" data-key="contact_phone_label">Phone Numbers</p>
+                                    <p class="font-medium">+383 43 788 881</p>
+                                    <p class="font-medium">+383 49 340 001</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-[#f8f0f7] flex items-center justify-center mr-4 shrink-0"> <i class="fas fa-globe text-[#9c6ea8]"></i> </div>
+                                <div>
+                                    <p class="text-gray-500 text-sm" data-key="contact_website_label">Website</p>
+                                    <a href="http://www.akademia-purity.us" target="_blank" class="font-medium text-gray-800 hover:text-[#6a4c93]">www.akademia-purity.us</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-[#6a4c93] text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="opacity-80" data-key="footer_text">© 2024 PURITY ACADEMY. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- FIXED UI: Language and Social Media -->
+    <div class="fixed-bottom-ui">
+        <!-- Language Dropdown -->
+        <div class="ui-dropdown" id="lang-dropdown">
+            <div class="ui-dropdown-menu" id="lang-menu">
+                <div class="lang-option" data-lang="en"> <img src="https://flagcdn.com/gb.svg" alt="English" class="lang-flag"> <span>English</span> </div>
+                <div class="lang-option" data-lang="al"> <img src="https://flagcdn.com/al.svg" alt="Shqip" class="lang-flag"> <span>Shqip</span> </div>
+            </div>
+            <button class="ui-dropdown-button" id="lang-btn"> <i class="fas fa-language text-2xl"></i> </button>
+        </div>
+        <!-- Social Media Dropdown -->
+        <div class="ui-dropdown" id="social-dropdown">
+            <div class="ui-dropdown-menu" id="social-menu">
+                <a href="https://www.facebook.com" target="_blank" class="social-option"> <i class="fab fa-facebook-f social-icon"></i> <span>Facebook</span> </a>
+                <a href="https://www.instagram.com" target="_blank" class="social-option"> <i class="fab fa-instagram social-icon"></i> <span>Instagram</span> </a>
+            </div>
+            <button class="ui-dropdown-button" id="social-btn"> <i class="fas fa-share-alt text-xl"></i> </button>
+        </div>
+    </div>
+
+    <script>
+    // --- TRANSLATION AND PROGRAM DATA ---
+    const translations = {
+        en: {
+            nav_programs: "Programs", nav_why_us: "Why Us", nav_certification: "Certification", nav_contact: "Contact",
+            nav_programs_mob: "Programs", nav_why_us_mob: "Why Us", nav_certification_mob: "Certification", nav_contact_mob: "Contact",
+            enroll_now: "Enroll Now",
+            hero_title_1: "Transform", hero_title_2: "Your Passion into", hero_title_3: "Profession",
+            hero_subtitle: "Join PURITY ACADEMY of Aesthetics and Cosmetology and master the art of beauty with internationally recognized certification.",
+            hero_btn_explore: "Explore Programs", hero_btn_contact: "Contact Us",
+            programs_title_1: "Our", programs_title_2: "Premium", programs_title_3: "Programs",
+            programs_subtitle: "Discover our comprehensive programs designed to provide you with the skills and knowledge needed to excel in the beauty industry.",
+            programs_individual_note: "You can take any course separately outside the program at a set price and duration without offer!",
+            why_us_title: 'Why Choose <span class="text-[#9c6ea8]">PURITY</span> Academy', why_us_subtitle: "We provide exceptional education and training in aesthetics and cosmetology with internationally recognized certification.",
+            why_us_f1_title: "International Certification", why_us_f1_desc: "Internationally recognized diploma from York University (USA) and PHD Institute TelAviv.",
+            why_us_f2_title: "Expert Instructors", why_us_f2_desc: "Learn from industry professionals with years of experience in aesthetics and cosmetology.",
+            why_us_f3_title: "Flexible Payment", why_us_f3_desc: "Multiple installment options available to make quality education accessible.",
+            why_us_f4_title: "Convenient Schedule", why_us_f4_desc: "Classes scheduled twice a week to accommodate your busy lifestyle.",
+            cert_badge_title: "CERTIFICATE OF COMPLETION", cert_badge_p1: "This certifies that", cert_badge_name: "Student Name", cert_badge_p2: "has successfully completed", cert_badge_program: "Aesthetics & Cosmetology Program", cert_badge_p3: "at PURITY Academy",
+            cert_title_1: "Internationally", cert_title_2: "Recognized", cert_title_3: "Certification",
+            cert_desc: "Upon completion of your chosen program at PURITY Academy, you will receive an internationally recognized diploma backed by:",
+            cert_partner1: "York University (USA)", cert_partner2: "Faculty of Medical Cosmetics at the PHD Institute TelAviv",
+            cert_motto: `"WE SHOW OUR WORK BEST WHEN WE ARE INSPIRING OTHERS!"`,
+            contact_title: "Ready to Transform Your Career?", contact_subtitle: "Contact us today to learn more about our programs and start your journey in aesthetics and cosmetology.",
+            form_title: "Get in Touch", form_name: "Full Name", form_email: "Email Address", form_message: "Message", form_button: "Send Message",
+            form_select_label: "Program of Interest", form_select_default: "Select a Program", form_select_cosmetology: "Cosmetology Program", form_select_anti_ageing: "Anti-Ageing Program", form_select_aesthetic: "Aesthetic Program", form_select_wellness: "Wellness & SPA Therapy",
+            contact_info_title: "Contact Information", contact_phone_label: "Phone Numbers", contact_website_label: "Website",
+            footer_text: "© 2024 PURITY ACADEMY. All rights reserved.",
+        },
+        al: {
+            nav_programs: "Programet", nav_why_us: "Pse Ne", nav_certification: "Çertifikimi", nav_contact: "Kontakti",
+            nav_programs_mob: "Programet", nav_why_us_mob: "Pse Ne", nav_certification_mob: "Çertifikimi", nav_contact_mob: "Kontakti",
+            enroll_now: "Regjistrohu Tani",
+            hero_title_1: "Shndërroni", hero_title_2: "Pasionin Tuaj në", hero_title_3: "Profesion",
+            hero_subtitle: "Bashkohuni me PURITY ACADEMY të Estetikës dhe Kozmetologjisë dhe zotëroni artin e bukurisë me çertifikim të njohur ndërkombëtarisht.",
+            hero_btn_explore: "Eksploro Programet", hero_btn_contact: "Na Kontaktoni",
+            programs_title_1: "Programet", programs_title_2: "Tona", programs_title_3: "Premium",
+            programs_subtitle: "Zbuloni programet tona gjithëpërfshirëse të dizajnuara për t'ju ofruar aftësitë dhe njohuritë e nevojshme për të shkëlqyer në industrinë e bukurisë.",
+            programs_individual_note: "Ju mund të merrni çdo kurs veçmas jashtë programit me një çmim dhe kohëzgjatje të caktuar pa ofertë!",
+            why_us_title: 'Pse të Zgjidhni Akademinë <span class="text-[#9c6ea8]">PURITY</span>', why_us_subtitle: "Ne ofrojmë arsim dhe trajnim të jashtëzakonshëm në estetikë dhe kozmetologji me çertifikim të njohur ndërkombëtarisht.",
+            why_us_f1_title: "Çertifikim Ndërkombëtar", why_us_f1_desc: "Diplomë e njohur ndërkombëtarisht nga York University (SHBA) dhe Instituti PHD TelAviv.",
+            why_us_f2_title: "Instruktorë Ekspertë", why_us_f2_desc: "Mësoni nga profesionistë të industrisë me vite përvojë në estetikë dhe kozmetologji.",
+            why_us_f3_title: "Pagesa Fleksibël", why_us_f3_desc: "Opsione të shumta këstesh në dispozicion për të bërë arsimin cilësor të arritshëm.",
+            why_us_f4_title: "Orar i Përshtatshëm", why_us_f4_desc: "Klasat mbahen dy herë në javë për t'iu përshtatur stilit tuaj të jetesës.",
+            cert_badge_title: "ÇERTIFIKATË E PËRFUNDIMIT", cert_badge_p1: "Kjo çertifikon se", cert_badge_name: "Emri i Studentit", cert_badge_p2: "ka përfunduar me sukses", cert_badge_program: "Programin e Estetikës & Kozmetologjisë", cert_badge_p3: "në PURITY Academy",
+            cert_title_1: "Çertifikim i", cert_title_2: "Njohur", cert_title_3: "Ndërkombëtarisht",
+            cert_desc: "Pas përfundimit të programit tuaj të zgjedhur në PURITY Academy, ju do të merrni një diplomë të njohur ndërkombëtarisht të mbështetur nga:",
+            cert_partner1: "York University (SHBA)", cert_partner2: "Fakulteti i Kozmetikës Mjekësore në Institutin PHD TelAviv",
+            cert_motto: `"NE E TREGGOJMË PUNËN TONË MË SË MIRI KUR FRYMËZOJMË TË TJERËT!"`,
+            contact_title: "Gati për të Transformuar Karrierën?", contact_subtitle: "Na kontaktoni sot për të mësuar më shumë rreth programeve tona dhe për të filluar udhëtimin tuaj në estetikë dhe kozmetologji.",
+            form_title: "Na Kontaktoni", form_name: "Emri i Plotë", form_email: "Adresa e Email-it", form_message: "Mesazhi", form_button: "Dërgo Mesazhin",
+            form_select_label: "Programi i Interesit", form_select_default: "Zgjidhni një Program", form_select_cosmetology: "Programi i Kozmetologjisë", form_select_anti_ageing: "Programi Anti-Plakje", form_select_aesthetic: "Programi Estetik", form_select_wellness: "Terapi Wellness & SPA",
+            contact_info_title: "Informacione Kontakti", contact_phone_label: "Numrat e Telefonit", contact_website_label: "Uebfaqja",
+            footer_text: "© 2024 PURITY ACADEMY. Të gjitha të drejtat e rezervuara.",
+        }
+    };
+
+    const programData = {
+        en: [
+            { title: 'Cosmetology Program', duration: '8 weeks, twice a week, 5 academic hours', courses: ['Level I Cosmetologist', 'Hidrafascial 7in1', 'Microdermabrasion', 'Plasmapen', 'Dermapen', 'BBGlow', 'Chemical Peels'], installments: 'Up to 5 installments' },
+            { title: 'Anti-Ageing Program', duration: '3 weeks, twice a week, 5 academic hours', courses: ['Collagen proton FIVE', 'HyaluronPen', 'PlasmaPen', 'Microdermabrasion', 'Hydrotherapy', 'DermaPen'], installments: 'Available in 3 castes' },
+            { title: 'Aesthetic Program', duration: '8 weeks, twice a week, 5 academic hours', courses: ['MUA Makeup Techniques', 'Microblading', 'Eyebrow Powder'], installments: 'Up to 3 installments' },
+            { title: 'Wellness & SPA Therapy', duration: '8 weeks, twice a week, 5 academic hours', courses: ['Manicure', 'Pedykyr', 'DEPILIM', 'Maderotherapy of the body', 'Maderotherapy and facials'], installments: 'Up to 3 installments' }
+        ],
+        al: [
+            { title: 'Programi i Kozmetologjisë', duration: '8 javë, dy herë në javë, 5 orë akademike', courses: ['Kozmetolog Niveli I', 'Hidrafascial 7në1', 'Mikrodermabrazioni', 'Plasmapen', 'Dermapen', 'BBGlow', 'Piling Kimik'], installments: 'Deri në 5 këste' },
+            { title: 'Programi Anti-Plakje', duration: '3 javë, dy herë në javë, 5 orë akademike', courses: ['Kolagjen proton FIVE', 'HyaluronPen', 'PlasmaPen', 'Mikrodermabrazioni', 'Hidroterapia', 'DermaPen'], installments: 'Në dispozicion në 3 këste' },
+            { title: 'Programi Estetik', duration: '8 javë, dy herë në javë, 5 orë akademike', courses: ['Teknika Grimi MUA', 'Microblading', 'Eyebrow Powder'], installments: 'Deri në 3 këste' },
+            { title: 'Terapi Wellness & SPA', duration: '8 javë, dy herë në javë, 5 orë akademike', courses: ['Manikyr', 'Pedikyr', 'DEPILIM', 'Maderoterapia e trupit', 'Maderoterapia e fytyrës'], installments: 'Deri në 3 këste' }
+        ]
+    };
+
+    function renderPrograms(lang) {
+        const container = document.getElementById('programs-grid-container');
+        container.innerHTML = '';
+        const programs = programData[lang];
+        
+        programs.forEach((program, index) => {
+            const coursesHtml = program.courses.map(course => `<li class="course-item">${course}</li>`).join('');
+            const cardWrapperClass = index === 3 ? 'md:col-span-2 lg:col-span-1 lg:col-start-2' : '';
+
+            const cardHtml = `
+                <div class="${cardWrapperClass}">
+                    <div class="program-card h-full rounded-xl overflow-hidden shadow-lg scroll-reveal flex flex-col" style="animation-delay: ${index * 0.15}s;">
+                        <div class="bg-gradient-to-r from-[#d4a9c8] to-[#9c6ea8] p-6 text-white">
+                            <h3 class="text-2xl font-bold mb-2">${program.title}</h3>
+                            <p class="opacity-90">${program.duration}</p>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <ul class="space-y-3 mb-6">${coursesHtml}</ul>
+                            <div class="mt-auto flex justify-between items-center pt-4">
+                                <span class="text-[#6a4c93] font-semibold">${program.installments}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            container.innerHTML += cardHtml;
+        });
+    }
+
+    const setLanguage = (lang) => {
+        document.documentElement.lang = lang;
+        localStorage.setItem('purity_lang', lang);
+        document.querySelectorAll('[data-key]').forEach(element => {
+            const key = element.getAttribute('data-key');
+            if (translations[lang][key]) {
+                element.innerHTML = translations[lang][key];
+            }
+        });
+        renderPrograms(lang);
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedLang = localStorage.getItem('purity_lang') || 'en';
+        setLanguage(savedLang);
+
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+        const checkScroll = () => {
+            scrollRevealElements.forEach(element => {
+                if (element.getBoundingClientRect().top < window.innerHeight - 100) {
+                    element.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', checkScroll);
+        checkScroll();
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({ top: targetElement.offsetTop - 80, behavior: 'smooth' });
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+        
+        document.querySelectorAll('.lang-option').forEach(option => {
+            option.addEventListener('click', (e) => {
+                const lang = e.currentTarget.getAttribute('data-lang');
+                setLanguage(lang);
+                document.getElementById('lang-menu').classList.remove('active');
+            });
+        });
+
+        function setupDropdown(buttonId, menuId) {
+            const button = document.getElementById(buttonId);
+            const menu = document.getElementById(menuId);
+            button.addEventListener('click', (e) => { e.stopPropagation(); menu.classList.toggle('active'); });
+        }
+        setupDropdown('lang-btn', 'lang-menu');
+        setupDropdown('social-btn', 'social-menu');
+        document.addEventListener('click', (e) => {
+            if (!document.getElementById('lang-dropdown').contains(e.target)) {
+                document.getElementById('lang-menu').classList.remove('active');
+            }
+            if (!document.getElementById('social-dropdown').contains(e.target)) {
+                document.getElementById('social-menu').classList.remove('active');
+            }
+        });
+    });
+    </script>
+</body>
+</html>
